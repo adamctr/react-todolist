@@ -1,9 +1,15 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Section from "./components/Section";
-import ButtonAddSection from "./components/ButtonAddSection";
+import Sections from "./components/Section";
+import ButtonPlus from "./components/ButtonPlus";
+import React from "react";
 
 function App() {
+  const myRef = React.createRef();
+
+  const handleClick = () => {
+    myRef.current.addSection();
+  };
+  console.log(myRef);
   return (
     <div className="App">
       <header>
@@ -13,9 +19,13 @@ function App() {
 
       <div className="main">
         <div className="container">
-          <Section></Section>
+          <Sections ref={myRef}></Sections>
         </div>
-        <ButtonAddSection />
+
+        <div className="footer" onClick={() => handleClick()}>
+          <ButtonPlus></ButtonPlus>
+          <p>Ajouter une section</p>
+        </div>
       </div>
     </div>
   );

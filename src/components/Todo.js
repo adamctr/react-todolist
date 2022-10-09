@@ -1,10 +1,9 @@
 import React from "react";
-import ButtonPlus from "./ButtonPlus";
 
 export default function Todo(props) {
   return (
     <div className="todo">
-      <ButtonPlus></ButtonPlus>
+      <input type="checkbox" />
       <p>{props.children}</p>
     </div>
   );

@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import Todo from "./Todo";
+import uuid from "react-uuid";
+import ButtonPlus from "./ButtonPlus";
 
 class Sections extends Component {
   state = {
     section: [
       {
         id: 1,
-        title: "09/10/2022",
-        todo: "salut je suis un todo",
+        title: "Aujourd'hui",
+        todo: ["salut je suis un todo", "Todo2"],
       },
       {
         id: 2,
-        title: "22/10/2022",
-        todo: "salut je suis un todo",
+        title: "Demain",
+        todo: ["salut je suis un todo"],
       },
     ],
+    toggle: true,
   };
 
   addSection = () => {
@@ -23,22 +26,77 @@ class Sections extends Component {
         section: [
           ...prevState.section,
           {
-            id: prevState + 1,
-            title: "qsdqsd",
+            id: uuid(),
+            title: "Semaine prochaine",
+            todo: [""],
           },
         ],
       };
     });
   };
+
+  addTodo = () => {
+    this.setState((prevState) => ({
+      section: prevState.section.map((obj, index) =>
+        obj.id == this.state.section[index].id
+          ? Object.assign(obj, {
+              todo: [...obj.todo, "aller stp"],
+            })
+          : obj
+      ),
+    }));
+  };
+
   render() {
     return (
       <>
+        {/* On retourne chaque section */}
         {this.state.section.map((section) => {
           return (
             <section key={section.id}>
-              <h2>{section.title}</h2>
+              {/* Titre de la section qui change dynamiquement */}
+              {this.state.toggle ? (
+                <p
+                  onDoubleClick={() => {
+                    this.setState({ toggle: false });
+                  }}
+                >
+                  {section.title}
+                </p>
+              ) : (
+                <input
+                  type="text"
+                  value={section.title}
+                  onChange={(e) => {
+                    this.setState((prevState) => ({
+                      section: prevState.section.map((obj) =>
+                        obj.id == section.id
+                          ? Object.assign(obj, {
+                              title: e.target.value,
+                            })
+                          : obj
+                      ),
+                    }));
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === "Escape") {
+                      this.setState({ toggle: true });
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                  }}
+                />
+              )}
+
+              {/* <h2 onDoubleClick={this.onDoubleClickHandler}>{section.title}</h2> */}
               <div className="todolist">
-                <Todo>{section.todo}</Todo>
+                {/* On retourne chaque todo de chaque section */}
+                {section.todo.map((todo) => {
+                  return <Todo key={uuid()}>{todo}</Todo>;
+                })}
+                <div onClick={this.addTodo}>
+                  <ButtonPlus></ButtonPlus>
+                </div>
               </div>
             </section>
           );

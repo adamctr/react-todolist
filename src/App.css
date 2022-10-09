@@ -28,6 +28,7 @@ header {
   border: 1px solid black;
   margin: auto;
   padding: 10px;
+  cursor: pointer;
 }
 
 .footer > p {
@@ -105,4 +106,9 @@ section > h2 {
 .button_plus:hover {
   background-color: #095776;
   transition: 0.2s;
+}
+
+.footer:hover {
+  background-color: #095776;
+  color: white;
 }
