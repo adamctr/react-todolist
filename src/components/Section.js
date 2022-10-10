@@ -16,9 +16,5 @@ const SectionWrapper = styled.section`
 `;
 
 export default function Section(props) {
-  return (
-    <SectionWrapper>
-      <h2>{props.children}</h2>
-    </SectionWrapper>
-  );
+  return <SectionWrapper>{props.children}</SectionWrapper>;
 }

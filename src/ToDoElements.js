@@ -7,7 +7,9 @@ import ButtonCreate from "./components/ButtonCreate";
 
 const ToDoElementsWrapper = styled.div`
   display: flex;
-  width: 80%;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
   margin: auto;
   justify-content: space-evenly;
   align-items: center;
@@ -24,7 +26,7 @@ const ToDoElements = () => {
 
   const [todos, setTodos] = useState([
     { id: 1, sectionRef: 1, desc: "Acheter du lait" },
-    { id: 2, sectionRef: 1, desc: "Acheter du fromage" },
+    { id: 2, sectionRef: 3, desc: "Acheter du fromage" },
     { id: 3, sectionRef: 2, desc: "Acheter du pain" },
   ]);
 
@@ -33,7 +35,20 @@ const ToDoElements = () => {
     { id: 2, title: "titre 2" },
   ]);
 
-  const createSection = (todo) => {
+  const [toggle, setToggle] = React.useState(true);
+  function toggleInput() {
+    setToggle(false);
+  }
+
+  const createSection = (section) => {
+    const newSections = [...sections];
+    newSections.push(section);
+    setSections(newSections);
+  };
+
+  const modifyTitleSection = (e, id) => {};
+
+  const createTodo = (todo) => {
     const newTodos = [...todos];
     newTodos.push(todo);
     setTodos(newTodos);
@@ -47,9 +62,28 @@ const ToDoElements = () => {
       </ButtonCreateWrapper>
 
       <ToDoElementsWrapper>
-        {sections.map((section) => (
+        {sections.map((section, index) => (
           <Section key={section.id}>
-            {section.title}
+            <h2>{section.title}</h2>
+
+            {/* Changer titre dynamiquement */}
+            {/* {toggle ? (
+              <h2 onDoubleClick={toggleInput}>{section.title}</h2>
+            ) : (
+              <input
+                type="text"
+                value={section.title}
+                onChange={(e) => modifyTitleSection(e)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === "Escape") {
+                    setToggle(true);
+                    event.preventDefault();
+                    event.stopPropagation();
+                  }
+                }}
+              />
+            )} */}
+            {/* On affiche le todo dans sa section attribuée */}
             {todos.map((todo) =>
               todo.sectionRef === section.id ? (
                 <Task key={todo.id} sectionRef={todo.sectionRef}>
