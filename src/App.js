@@ -1,32 +1,34 @@
 import "./App.css";
-import Sections from "./components/Section";
-import ButtonPlus from "./components/ButtonPlus";
 import React from "react";
+import styled, { css } from "styled-components";
+import ToDoElements from "./ToDoElements";
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-evenly;
+  padding: 20px;
+`;
+
+const Header = styled.header`
+  text-align: center;
+`;
 
 function App() {
-  const myRef = React.createRef();
-
-  const handleClick = () => {
-    myRef.current.addSection();
-  };
-  console.log(myRef);
   return (
     <div className="App">
-      <header>
-        <h1>To-do List</h1>
-        <p>On fait quoi aujourd'hui ?</p>
-      </header>
+      <Header>
+        <h1 style={{ textAlign: "center" }}>To-Do List</h1>
+        <p style={{ textAlign: "center", fontSize: "15px" }}>
+          Click and drop your task in your section if she feels alone ! (not
+          yet)
+        </p>
+      </Header>
 
-      <div className="main">
-        <div className="container">
-          <Sections ref={myRef}></Sections>
-        </div>
-
-        <div className="footer" onClick={() => handleClick()}>
-          <ButtonPlus></ButtonPlus>
-          <p>Ajouter une section</p>
-        </div>
-      </div>
+      <Main>
+        <ToDoElements></ToDoElements>
+      </Main>
     </div>
   );
 }
