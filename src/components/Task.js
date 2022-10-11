@@ -1,11 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useState } from "react";
 
-const TaskWrapper = styled.section`
-  max-width: 220px;
+const TaskWrapper = styled.div`
   width: 100%;
-  min-height: 50px;
+  min-height: 60px;
   padding: 17px;
   margin: 20px auto;
   background: #e3e3e3;
@@ -22,9 +20,10 @@ const TaskWrapper = styled.section`
 `;
 
 export default function Task(props) {
+  console.log(props);
   return (
-    <TaskWrapper>
-      <p>{props.children}</p>
+    <TaskWrapper data-id={props.dataId} onClick={(e) => props.toggleInput(e)}>
+      {props.children}
     </TaskWrapper>
   );
 }

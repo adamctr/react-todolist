@@ -4,6 +4,7 @@ import Task from "./components/Task";
 import { useState } from "react";
 import Section from "./components/Section";
 import ButtonCreate from "./components/ButtonCreate";
+import { v4 as uuidv4 } from "uuid";
 
 const ToDoElementsWrapper = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ const ToDoElementsWrapper = styled.div`
   margin: auto;
   justify-content: space-evenly;
   align-items: center;
+  gap: 10px;
 `;
 
 const ButtonCreateWrapper = styled.div`
@@ -28,6 +30,10 @@ const Title = styled.h2`
   margin: 10px auto;
   background: #e3e3e3;
   box-shadow: inset 6px 6px 12px #a6a6a6, inset -6px -6px 12px #ffffff;
+  text-align: center;
+  font-size: 20px;
+  padding: 17px;
+  transition: background-color 3s ease;
 `;
 
 const ButtonPlus = styled.button`
@@ -47,7 +53,7 @@ const ToDoElements = () => {
 
   const [todos, setTodos] = useState([
     { id: 1, sectionRef: 1, desc: "10:30AM | Buy Bread" },
-    { id: 2, sectionRef: 3, desc: "Chill ~ Chill ~" },
+    { id: 2, sectionRef: 2, desc: "Chill ~ Chill ~" },
     { id: 3, sectionRef: 2, desc: "Chill ~" },
   ]);
 
@@ -56,20 +62,41 @@ const ToDoElements = () => {
     { id: 2, title: "Tomorrow" },
   ]);
 
-  const [toggle, setToggle] = React.useState(true);
-  function toggleInput(e) {
-    const toggledId = e.target.dataset.id;
+  const [toggleSection, setToggleSection] = React.useState(true);
+  const [toggleTask, setToggleTask] = React.useState(true);
+
+  function toggleInputSection(e) {
+    const toggledId = parseInt(e.target.dataset.id);
     console.log("toggle input sur ", toggledId);
-    setToggle(parseInt(toggledId));
+    setToggleSection(parseInt(toggledId));
+  }
+
+  function toggleInputTask(e) {
+    const toggledId = parseInt(e.target.dataset.id);
+    console.log("toggle input sur ", toggledId);
+    setToggleTask(parseInt(toggledId));
   }
 
   const modifyTitleSection = (e) => {
-    // const sectionId = e.target.dataset.id;
-    // let newSection = { ...sections };
-    // sections.map((section) => {
-    //   if (section.id == sectionId) {
-    //   }
-    // });
+    const sectionId = parseInt(e.target.dataset.id);
+    const value = e.target.value;
+
+    let newSections = [...sections];
+
+    newSections[newSections.findIndex((e) => e.id === sectionId)].title = value;
+
+    setSections(newSections);
+  };
+
+  const modifyTodoDesc = (e) => {
+    const todoId = parseInt(e.target.dataset.id);
+    const value = e.target.value;
+
+    let newTodos = [...todos];
+
+    newTodos[newTodos.findIndex((e) => e.id === todoId)].desc = value;
+
+    setTodos(newTodos);
   };
 
   const createTodo = (e) => {
@@ -77,8 +104,8 @@ const ToDoElements = () => {
     const newTodos = [...todos];
     const newTodo = {
       id: todos[todos.length - 1].id + 1,
-      sectionRef: sectionRef,
-      desc: "Double Click to Change",
+      sectionRef: parseInt(sectionRef),
+      desc: "",
     };
     newTodos.push(newTodo);
     setTodos(newTodos);
@@ -103,19 +130,20 @@ const ToDoElements = () => {
             {/* <h2>{section.title}</h2> */}
 
             {/* Changer titre dynamiquement */}
-            {toggle !== section.id ? (
-              <Title onDoubleClick={toggleInput} data-id={section.id}>
-                {section.id} {section.title}
+            {toggleSection !== section.id ? (
+              <Title onClick={toggleInputSection} data-id={section.id}>
+                {section.title}
               </Title>
             ) : (
               <input
+                className="title"
                 type="text"
                 value={section.title}
                 data-id={section.id}
-                onChange={(e) => modifyTitleSection(e)}
+                onChange={modifyTitleSection}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === "Escape") {
-                    setToggle(null);
+                    setToggleSection(null);
                     event.preventDefault();
                     event.stopPropagation();
                   }
@@ -123,12 +151,36 @@ const ToDoElements = () => {
               />
             )}
 
-            {/* On affiche le todo dans sa section attribuée */}
+            {/* On affiche le todo dans sa section attribuée + Changement dynamique des Todo*/}
             {todos.map((todo) =>
               todo.sectionRef === section.id ? (
-                <Task key={todo.id} sectionRef={todo.sectionRef}>
-                  {todo.desc}
-                </Task>
+                toggleTask !== todo.id ? (
+                  <Task
+                    toggleInput={toggleInputTask}
+                    key={todo.id}
+                    dataId={todo.id}
+                    placeholder="Click to change"
+                  >
+                    {todo.desc}
+                  </Task>
+                ) : (
+                  <input
+                    className="task"
+                    placeholder="Click to change"
+                    key={todo.id}
+                    type="text"
+                    value={todo.desc}
+                    data-id={todo.id}
+                    onChange={modifyTodoDesc}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === "Escape") {
+                        setToggleTask(null);
+                        event.preventDefault();
+                        event.stopPropagation();
+                      }
+                    }}
+                  />
+                )
               ) : (
                 ""
               )

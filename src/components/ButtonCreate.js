@@ -16,27 +16,15 @@ export default function ButtonCreate(props) {
   const { sections, setSections } = props;
   const { todos, setTodos } = props;
 
-  const createSection = (title) => {
+  const createSection = () => {
     const newSections = [...sections];
     const newSection = {
       id: sections[sections.length - 1].id + 1,
-      title: title,
+      title: "",
     };
     newSections.push(newSection);
     console.log(newSections);
     setSections(newSections);
-  };
-
-  const createTodo = (e) => {
-    const sectionRef = e.target.dataset.id;
-    const newTodos = [...todos];
-    const newTodo = {
-      id: todos[todos.length - 1].id + 1,
-      sectionRef: sectionRef,
-      desc: "Double Click to Change",
-    };
-    newTodos.push(newTodo);
-    setTodos(newTodos);
   };
 
   return (

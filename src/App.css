@@ -34,23 +34,48 @@ input {
   all: unset;
 }
 
-input {
+input.title {
   display: block;
-  width: 260px;
-  border: none;
+  width: 100%;
+  font-weight: 800;
+  box-sizing: border-box;
   border-radius: 30px 15px;
   height: 50px;
   margin: 10px auto;
-  background-color: #e3e3e3;
-  font-weight: 800;
-  font-size: 20px;
-  text-align: center;
+  background: #e3e3e3;
   box-shadow: inset 6px 6px 12px #a6a6a6, inset -6px -6px 12px #ffffff;
+  text-align: center;
+  font-size: 20px;
+  padding: 17px;
+  transition: background-color 3s ease;
 }
 
-input:focus {
+input.title:focus {
+  font-size: 20px;
+
   outline: none;
   background-color: #e0e0e0;
+}
+
+input.task {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 60px;
+  padding-left: 17px;
+  margin: 20px auto;
+  background: #e3e3e3;
+  box-shadow: 5px 5px 10px #a6a6a6, -5px -5px 10px #ffffff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+input.task > p {
+  margin: 0px auto;
+
+  overflow-wrap: break-word;
+  font-weight: 400;
+  text-align: initial;
 }
 
 p {
