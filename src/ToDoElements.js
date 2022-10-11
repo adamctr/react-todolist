@@ -34,6 +34,7 @@ const Title = styled.h2`
   font-size: 20px;
   padding: 17px;
   transition: background-color 3s ease;
+  line-height: 20px;
 `;
 
 const ButtonPlus = styled.button`
@@ -45,6 +46,7 @@ const ButtonPlus = styled.button`
   border-radius: 50px;
   background: linear-gradient(145deg, #f3f3f3, #cccccc);
   box-shadow: 5px 5px 10px #c1c1c1, -5px -5px 10px #ffffff;
+  font-family: "Courier New", Courier, monospace;
   cursor: pointer;
 `;
 
@@ -52,9 +54,13 @@ const ToDoElements = () => {
   //Créer Task et Section, les regroupe
 
   const [todos, setTodos] = useState([
+    { id: 0, sectionRef: 0, desc: "" },
     { id: 1, sectionRef: 1, desc: "10:30AM | Buy Bread" },
-    { id: 2, sectionRef: 2, desc: "Chill ~ Chill ~" },
-    { id: 3, sectionRef: 2, desc: "Chill ~" },
+    { id: 2, sectionRef: 2, desc: "Learn FlexBox" },
+    { id: 3, sectionRef: 2, desc: "" },
+    { id: 4, sectionRef: 1, desc: "2:30PM | Fitness" },
+    { id: 5, sectionRef: 1, desc: "5:30PM | Stop Bootstrap" },
+    { id: 6, sectionRef: 2, desc: "Continue React" },
   ]);
 
   const [sections, setSections] = useState([
@@ -126,7 +132,12 @@ const ToDoElements = () => {
 
       <ToDoElementsWrapper>
         {sections.map((section, index) => (
-          <Section key={section.id}>
+          <Section
+            id={section.id}
+            key={section.id}
+            sections={sections}
+            setSections={setSections}
+          >
             {/* <h2>{section.title}</h2> */}
 
             {/* Changer titre dynamiquement */}
@@ -156,6 +167,8 @@ const ToDoElements = () => {
               todo.sectionRef === section.id ? (
                 toggleTask !== todo.id ? (
                   <Task
+                    todos={todos}
+                    setTodos={setTodos}
                     toggleInput={toggleInputTask}
                     key={todo.id}
                     dataId={todo.id}
