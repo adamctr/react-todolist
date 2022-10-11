@@ -9,11 +9,11 @@ const ToDoElementsWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  max-width: 1440px;
   height: 100%;
   margin: auto;
   justify-content: space-evenly;
   align-items: center;
-  border: 1px solid black;
 `;
 
 const ButtonCreateWrapper = styled.div`
@@ -21,68 +21,108 @@ const ButtonCreateWrapper = styled.div`
   justify-content: center;
 `;
 
+const Title = styled.h2`
+  width: 100%;
+  border-radius: 30px 15px;
+  height: 50px;
+  margin: 10px auto;
+  background: #e3e3e3;
+  box-shadow: inset 6px 6px 12px #a6a6a6, inset -6px -6px 12px #ffffff;
+`;
+
+const ButtonPlus = styled.button`
+  width: 35px;
+  height: 35px;
+  font-size: 20px;
+  margin-left: 20px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(145deg, #f3f3f3, #cccccc);
+  box-shadow: 5px 5px 10px #c1c1c1, -5px -5px 10px #ffffff;
+  cursor: pointer;
+`;
+
 const ToDoElements = () => {
   //Créer Task et Section, les regroupe
 
   const [todos, setTodos] = useState([
-    { id: 1, sectionRef: 1, desc: "Acheter du lait" },
-    { id: 2, sectionRef: 3, desc: "Acheter du fromage" },
-    { id: 3, sectionRef: 2, desc: "Acheter du pain" },
+    { id: 1, sectionRef: 1, desc: "10:30AM | Buy Bread" },
+    { id: 2, sectionRef: 3, desc: "Chill ~ Chill ~" },
+    { id: 3, sectionRef: 2, desc: "Chill ~" },
   ]);
 
   const [sections, setSections] = useState([
-    { id: 1, title: "titre 1" },
-    { id: 2, title: "titre 2" },
+    { id: 1, title: "Today" },
+    { id: 2, title: "Tomorrow" },
   ]);
 
   const [toggle, setToggle] = React.useState(true);
-  function toggleInput() {
-    setToggle(false);
+  function toggleInput(e) {
+    const toggledId = e.target.dataset.id;
+    console.log("toggle input sur ", toggledId);
+    setToggle(parseInt(toggledId));
   }
 
-  const createSection = (section) => {
-    const newSections = [...sections];
-    newSections.push(section);
-    setSections(newSections);
+  const modifyTitleSection = (e) => {
+    // const sectionId = e.target.dataset.id;
+    // let newSection = { ...sections };
+    // sections.map((section) => {
+    //   if (section.id == sectionId) {
+    //   }
+    // });
   };
 
-  const modifyTitleSection = (e, id) => {};
-
-  const createTodo = (todo) => {
+  const createTodo = (e) => {
+    const sectionRef = e.target.dataset.id;
     const newTodos = [...todos];
-    newTodos.push(todo);
+    const newTodo = {
+      id: todos[todos.length - 1].id + 1,
+      sectionRef: sectionRef,
+      desc: "Double Click to Change",
+    };
+    newTodos.push(newTodo);
     setTodos(newTodos);
+    console.log(todos);
   };
 
   return (
     <>
       <ButtonCreateWrapper>
-        <ButtonCreate>Create a Task</ButtonCreate>
-        <ButtonCreate>Create a Section</ButtonCreate>
+        <ButtonCreate
+          name="section"
+          setSections={setSections}
+          sections={sections}
+        >
+          Create a Section
+        </ButtonCreate>
       </ButtonCreateWrapper>
 
       <ToDoElementsWrapper>
         {sections.map((section, index) => (
           <Section key={section.id}>
-            <h2>{section.title}</h2>
+            {/* <h2>{section.title}</h2> */}
 
             {/* Changer titre dynamiquement */}
-            {/* {toggle ? (
-              <h2 onDoubleClick={toggleInput}>{section.title}</h2>
+            {toggle !== section.id ? (
+              <Title onDoubleClick={toggleInput} data-id={section.id}>
+                {section.id} {section.title}
+              </Title>
             ) : (
               <input
                 type="text"
                 value={section.title}
+                data-id={section.id}
                 onChange={(e) => modifyTitleSection(e)}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" || event.key === "Escape") {
-                    setToggle(true);
+                    setToggle(null);
                     event.preventDefault();
                     event.stopPropagation();
                   }
                 }}
               />
-            )} */}
+            )}
+
             {/* On affiche le todo dans sa section attribuée */}
             {todos.map((todo) =>
               todo.sectionRef === section.id ? (
@@ -93,6 +133,9 @@ const ToDoElements = () => {
                 ""
               )
             )}
+            <ButtonPlus data-id={section.id} onClick={(e) => createTodo(e)}>
+              +
+            </ButtonPlus>
           </Section>
         ))}
       </ToDoElementsWrapper>

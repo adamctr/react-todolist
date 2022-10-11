@@ -21,10 +21,6 @@ function App() {
     <div className="App">
       <Header>
         <h1 style={{ textAlign: "center" }}>To-Do List</h1>
-        <p style={{ textAlign: "center", fontSize: "15px" }}>
-          Click and drop your task in your section if she feels alone ! (not
-          yet)
-        </p>
       </Header>
 
       <Main>
