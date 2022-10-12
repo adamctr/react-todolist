@@ -12,12 +12,20 @@ const TaskWrapper = styled.div`
   box-shadow: 5px 5px 10px #a6a6a6, -5px -5px 10px #ffffff;
   border-radius: 10px;
   cursor: pointer;
+  transition: 0.1s ease;
 
   & > p {
     overflow-wrap: break-word;
     font-size: 13px;
     font-weight: 400;
     text-align: initial;
+  }
+
+  &:hover {
+    border-radius: 10px;
+    background: #e3e3e3;
+    box-shadow: 9px 9px 18px #cccccc, -9px -9px 18px #fafafa;
+    transform: scale(0.95, 0.95);
   }
 `;
 

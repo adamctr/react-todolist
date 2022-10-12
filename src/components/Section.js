@@ -12,6 +12,11 @@ const SectionWrapper = styled.section`
   border-radius: 20px;
   background: linear-gradient(145deg, #f3f3f3, #cccccc);
   box-shadow: 9px 9px 14px #a6a6a6, -9px -9px 14px #ffffff;
+  transition: 0.25s ease;
+
+  &:hover {
+    transform: scale(1.05, 1.05);
+  }
 `;
 
 const CloseSection = styled.div`
@@ -31,6 +36,7 @@ const CloseSection = styled.div`
       "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
     content: "x";
     transform: translate(25%, -23%);
+    cursor: pointer;
   }
 `;
 
